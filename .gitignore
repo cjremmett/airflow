@@ -1,0 +1,5 @@
+postgres-db-volume
+logs
+plugins
+dags/__pycache__
+.env
