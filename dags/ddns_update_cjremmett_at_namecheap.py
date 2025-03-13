@@ -8,7 +8,9 @@ def ddns_update_cjremmett_at_namecheap():
     token = Variable.get("ddns_token")
     domain_name = 'cjremmett.com'
     host = '@'
-    response = requests.put(f'https://cjremmett.com/flask/dynamic-dns/update-namecheap-dns-record?host={host}&domain_name={domain_name}', headers={"token": token})
+    # Need to use the internal IP of the server because if the public IP changed cjremmett.com will be unreachable
+    internal_ip = '192.168.0.121'
+    response = requests.put(f'http://{internal_ip}/flask/dynamic-dns/update-namecheap-dns-record?host={host}&domain_name={domain_name}', headers={"token": token})
     if response.status_code > 201:
         raise Exception('API call failed. Status code: ' + str(response.status_code))
 
