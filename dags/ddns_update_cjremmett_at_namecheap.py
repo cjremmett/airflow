@@ -17,7 +17,7 @@ def ddns_update_cjremmett_at_namecheap():
 
 dag = DAG(
     'ddns_update_cjremmett_at_namecheap',
-    start_date=pendulum.datetime(2024, 6, 20, tz="America/New_York"),
+    start_date=pendulum.datetime(2025, 3, 14, tz="America/New_York"),
     schedule='*/12 * * * *'
 )
 
