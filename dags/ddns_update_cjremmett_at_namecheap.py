@@ -17,8 +17,7 @@ def ddns_update_cjremmett_at_namecheap():
 def get_public_ip() -> str:
     try:
         response = requests.get('https://dynamicdns.park-your-domain.com/getip')
-        #return response.text
-        return '1.1.1.1'
+        return response.text
     except Exception as e:
         return None
     
