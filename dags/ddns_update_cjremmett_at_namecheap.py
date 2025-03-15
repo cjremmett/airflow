@@ -5,15 +5,23 @@ import pendulum
 from airflow.models import Variable
 
 def ddns_update_cjremmett_at_namecheap():
-    token = Variable.get("ddns_token")
+    namecheap_password = Variable.get("namecheap_password")
     domain_name = 'cjremmett.com'
     host = '@'
-    # Need to use localhost because if the public IP changes cjremmett.com will be unreachable
-    internal_ip = 'localhost:5000'
-    response = requests.put(f'http://{internal_ip}/flask/dynamic-dns/update-namecheap-dns-record?host={host}&domain_name={domain_name}', headers={"token": token})
+    ip_address = get_public_ip()
+    response = requests.get(f'https://dynamicdns.park-your-domain.com/update?host={host}&domain={domain_name}&password={namecheap_password}&ip={ip_address}')
     if response.status_code > 201:
         raise Exception('API call failed. Status code: ' + str(response.status_code))
 
+
+def get_public_ip() -> str:
+    try:
+        response = requests.get('https://dynamicdns.park-your-domain.com/getip')
+        #return response.text
+        return '1.1.1.1'
+    except Exception as e:
+        return None
+    
 
 dag = DAG(
     'ddns_update_cjremmett_at_namecheap',
